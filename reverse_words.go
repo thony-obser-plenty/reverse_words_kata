@@ -1,12 +1,19 @@
 package main
 
+import "fmt"
+
 func main() {
-	reverseWords("hello world")           // Output: "world hello"
-	reverseWords("  I love programming ") // Output: "programming love I"
-	reverseWords("  the sky is blue  ")   // Output: "blue is sky the"
+	fmt.Println(reverseString("hello world"))           // Output: "world hello"
+	fmt.Println(reverseString("  I love programming ")) // Output: "programming love I"
+	fmt.Println(reverseString("  the sky is blue  "))   // Output: "blue is sky the"
+
+	fmt.Println(reverseWords("hello world"))           // Output: "world hello"
+	fmt.Println(reverseWords("  I love programming ")) // Output: "programming love I"
+	fmt.Println(reverseWords("  the sky is blue  "))   // Output: "blue is sky the"
 }
 
-func reverseWords(s string) string {
+// Well i fucked up, the challenge was to write a function to reverse words, not strings.
+func reverseString(s string) string {
 	trimSpaces(&s)
 
 	reversedString := ""
@@ -58,4 +65,44 @@ func isWhitespace(ch rune) bool {
 	}
 
 	return false
+}
+
+func reverseWords(sentence string) string {
+	words := make([]string, 0)
+	currentWord := ""
+
+	for _, char := range sentence {
+		if char == ' ' {
+			if currentWord != "" {
+				words = append([]string{currentWord}, words...)
+				currentWord = ""
+			}
+		} else {
+			currentWord += string(char)
+		}
+	}
+
+	if currentWord != "" {
+		words = append([]string{currentWord}, words...)
+	}
+
+	reversedSentence := joinWords(words, " ")
+
+	return reversedSentence
+}
+
+func joinWords(words []string, separator string) string {
+	length := len(words)
+	if length == 0 {
+		return ""
+	} else if length == 1 {
+		return words[0]
+	}
+
+	reversedSentence := words[0]
+	for i := 1; i < length; i++ {
+		reversedSentence += separator + words[i]
+	}
+
+	return reversedSentence
 }
